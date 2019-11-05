@@ -1,16 +1,11 @@
 import React from 'react'
 import './App.css'
-import FormPage from './FormPage'
-import Table from './Table'
-import { Route, Switch} from 'react-router-dom'
+import Index from './container/index'
 
-function App(props) {
+const App = props => {
   return(
     <div>
-      <Switch>
-    <Route path="/" component={FormPage}/>
-    <Route path="/table" component={Table}/>
-      </Switch>
+      <Index/>
     </div>
   
   )

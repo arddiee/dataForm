@@ -1,17 +1,12 @@
 import React from 'react';
-import './App.css';
 
-import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types'
 
-import Table from './Table'
+import { Dialog, DialogContent } from '@material-ui/core';
+
 
 const localGovt = [
   {
@@ -34,35 +29,43 @@ const localGovt = [
 
 
 const useStyles = makeStyles(theme => ({
-  card: {
-    minWidth: 275,
-  },
-  root: {
-    padding: theme.spacing(3, 2),
+  containers: {
+  //  alignItems: 'center',
+  //  justifyContent: 'center',
+  //  display: 'flex',
+   width: '50%'
   },
   pos: {
     marginBottom: 12,
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 300,
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-  
+  buttons:{
+    color: 'white',
+    backgroundColor: '#3F51B5',
+    borderRadius: 0,
+    minWidth: '12%',
+    textTransform: 'capitalize',
+    '&:hover':{
+        backgroundColor: '#3F51B5',
+    }
+},
+
 }));
 
 
 const  FormPage = props => {
 
-  const {history} = props;
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const classes = useStyles();
+
   const [lga, setlga] = React.useState('LGA');
 
   const handleChange = event => {
@@ -70,66 +73,62 @@ const  FormPage = props => {
   };
 
   const handleSubmit = (event) =>{
-      event.preventDefault()
-     history.replace()
+    event.preventDefault()
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <div className="data-form">
-         <AppBar>
-          <Toolbar>
-            <Typography variant="h6"> Data Form </Typography>
-          </Toolbar>
-        </AppBar>  
-        <Card className={classes.card}>
-         <Paper className={classes.root}>
-          <form className={classes.container} noValidate autoComplete="off" onSubmit={handleSubmit}>
-      <div>
+       
+      <div className={classes.formWrap}>
+
+       <Button className={classes.buttons} onClick={handleClickOpen}>
+            Add Referal
+        </Button>
+
+        <Dialog open={open} aria-labelledby="simple-dialog-title" onClose={handleClose}>
+        <DialogContent className={classes.containers}>
+
+      <form 
+      autoComplete="on" 
+      onSubmit={handleSubmit}>
+    
         <TextField
           id="outlined-basic"
-          className={classes.textField}
           label="Name"
           margin="normal"
           variant="outlined"
-          
+          fullWidth
         />
-      </div>
-
-      <div>
+     
         <TextField
           id="outlined-basic"
-          className={classes.textField}
           label="Phone Number"
           margin="normal"
           variant="outlined"
+          fullWidth
         />
-      </div>
-
-      <div>
+      
         <TextField
           id="outlined-basic"
-          className={classes.textField}
           label="Age"
           margin="normal"
           variant="outlined"
+          fullWidth
         />
-      </div>
+     
           <TextField
             id="outlined-select-lga"
             select
             label="Local Govt Area"
-            className={classes.textField}
+            fullWidth
             value={lga}
             onChange={handleChange}
+            helperText="Please select your LGA"
             SelectProps={{
               native: true,
               MenuProps: {
                 className: classes.menu,
               },
             }}
-            helperText="Please select your LGA"
             margin="normal"
             variant="outlined"
           >
@@ -139,22 +138,19 @@ const  FormPage = props => {
               </option>
             ))}
           </TextField>
-     <div>
+    
              <Button variant="contained" 
              size="large" 
              color="primary" 
              type="submit"
-             className={classes.margin}
              >
                Submit
               </Button>
-             </div>   
-           </form>  
-           </Paper>      
-          </Card>    
-        </div>
-      </header>
-    </div>
+             
+           </form> 
+          </DialogContent>
+          </Dialog>   
+          </div>
   );
 }
 
