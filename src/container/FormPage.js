@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -54,7 +54,20 @@ const useStyles = makeStyles(theme => ({
 
 const  FormPage = props => {
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  // Similar to componentDidMount and componentDidUpdate
+
+  const [datas, setDatas] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(async() =>{
+    const response = await fetch('url');
+    const data = await response.json();
+    const item = data.results;
+    setDatas(item);
+    setLoading(true);
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
